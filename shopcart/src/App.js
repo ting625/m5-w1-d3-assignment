@@ -34,7 +34,7 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header bg-info text-white p-3">
+      <header className="App-header bg-info text-black p-3">
         <h1 className="App-title">Shop to React</h1>
         <div className="align-items-center">
           <FontAwesomeIcon icon={faShoppingCart} className="App-cart-icon mr-2" />
