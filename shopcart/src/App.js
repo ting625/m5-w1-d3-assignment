@@ -18,7 +18,7 @@ function App() {
     mug: 0,
     wallet: 0,
   });
-  
+
   return (
     <div className="App">
       <header className="App-header">
@@ -29,32 +29,40 @@ function App() {
       <main className="App-main">
         <div className="container">
           <div className="row">
-             {/* Product 1 */}
-            <div className="col-sm-8 d-flex">
-              <p>Unisex Cologne</p>
-              <img src={cologne} alt="Cologne" className="img-fluid" />
-              <p className="ml-2 d-flex">Quantity: {quantities.cologne}</p>
+            {/* Product 1 */}
+            <div className="col-sm-12 d-flex border p-3 align-items-center">
+              <div className="flex-grow-1">
+                <p className="font-weight-bold">Unisex Cologne</p>
+                <img src={cologne} alt="Cologne" className="img-fluid rounded" />
+              </div>
+              <p className="ml-3 mb-0">Quantity: {quantities.cologne}</p>
             </div>
             
             {/* Product 2 */}
-            <div className="col-sm-8 d-flex">
-              <p>Apple iWatch</p>
-              <img src={iwatch} alt="iWatch" className="img-fluid" />
-              <p className="ml-2 d-flex">Quantity: {quantities.cologne}</p>
+            <div className="col-sm-12 d-flex border p-3 align-items-center">
+              <div className="flex-grow-1">
+                <p className="font-weight-bold">Apple iWatch</p>
+                <img src={iwatch} alt="iWatch" className="img-fluid rounded" />
+              </div>
+              <p className="ml-3 mb-0">Quantity: {quantities.iwatch}</p>
             </div>
 
             {/* Product 3 */}
-            <div className="col-sm-8 d-flex">
-              <p>Unique Mug</p>
-              <img src={mug} alt="Cat Mug" className="img-fluid" />
-              <p className="ml-2 d-flex">Quantity: {quantities.mug}</p>
+            <div className="col-sm-12 d-flex border p-3 align-items-center">
+              <div className="flex-grow-1">
+                <p className="font-weight-bold">Unique Mug</p>
+                <img src={mug} alt="Cat Mug" className="img-fluid rounded" />
+              </div>
+              <p className="ml-3 mb-0">Quantity: {quantities.mug}</p>
             </div>
             
             {/* Product 4 */}
-            <div className="col-sm-8 d-flex">
-              <p>Mens Wallet</p>
-              <img src={wallet} alt="Wallet" className="img-fluid" />
-              <p className="ml-2 d-flex">Quantity: {quantities.wallet}</p>
+            <div className="col-sm-12 d-flex border p-3 align-items-center">
+              <div className="flex-grow-1">
+                <p className="font-weight-bold">Mens Wallet</p>
+                <img src={wallet} alt="Wallet" className="img-fluid rounded" />
+              </div>
+              <p className="ml-3 mb-0">Quantity: {quantities.wallet}</p>
             </div>
           </div>
         </div>
