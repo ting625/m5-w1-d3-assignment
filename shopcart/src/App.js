@@ -18,15 +18,6 @@ function App() {
   const [lightboxProduct, setLightboxProduct] = useState(null); // Lightbox state
   const [viewCart, setViewCart] = useState(false); // Cart view state
 
-  const handleQuantityChange = (product, value) => {
-    if (value >= 0) {
-      setQuantities((prev) => ({
-        ...prev,
-        [product]: value,
-      }));
-    }
-  };
-
   const handleIncrement = (product) => {
     setQuantities((prev) => ({
       ...prev,
@@ -57,8 +48,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header bg-info text-black p-3 d-flex justify-content-between align-items-center">
-        <h1 className="App-title" onClick={() => setViewCart(false)}>Shop 2 React</h1>
-        <div className="align-items-center" onClick={() => setViewCart(true)}>
+        <h1 className="App-title" onClick={() => setViewCart(false)} style={{ cursor: 'pointer' }}>
+          Shop 2 React
+        </h1>
+        <div className="align-items-center d-flex" onClick={() => setViewCart(true)} style={{ cursor: 'pointer' }}>
           <FontAwesomeIcon icon={faShoppingCart} className="App-cart-icon mr-2" />
           <span>{totalItems} {totalItems === 1 ? 'item' : 'items'}</span>
         </div>
@@ -104,7 +97,7 @@ function App() {
                     <button onClick={() => handleDecrement(product.key)} className="btn btn-outline-secondary mr-2">
                       <FontAwesomeIcon icon={faMinus} />
                     </button>
-                    <span>{quantities[product.key]}</span>
+                    <span className="mx-2">{quantities[product.key]}</span> {/* Quantity in between */}
                     <button onClick={() => handleIncrement(product.key)} className="btn btn-outline-secondary ml-2">
                       <FontAwesomeIcon icon={faPlus} />
                     </button>
@@ -118,19 +111,49 @@ function App() {
 
       {/* Lightbox for product info */}
       {lightboxProduct && (
-        <div className="lightbox" onClick={() => setLightboxProduct(null)}>
-          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
-            <button className="lightbox-close" onClick={() => setLightboxProduct(null)}>
+        <div className="lightbox" onClick={() => setLightboxProduct(null)} style={styles.lightbox}>
+          <div className="lightbox-content" onClick={(e) => e.stopPropagation()} style={styles.lightboxContent}>
+            <button className="lightbox-close" onClick={() => setLightboxProduct(null)} style={styles.closeButton}>
               <FontAwesomeIcon icon={faTimes} />
             </button>
             <h2>{lightboxProduct.name}</h2>
-            <img src={lightboxProduct.img} alt={lightboxProduct.name} className="img-fluid" />
-            <p>Some details about {lightboxProduct.name}...</p>
+            <img src={lightboxProduct.img} alt={lightboxProduct.name} className="img-fluid" style={styles.lightboxImg} />
+            <p>Ratings about {lightboxProduct.name}</p>
           </div>
         </div>
       )}
     </div>
   );
 }
+
+// Add some basic styles for the lightbox
+const styles = {
+  lightbox: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 9999,
+  },
+  lightboxContent: {
+    backgroundColor: '#ffffff',
+    padding: '20px',
+    borderRadius: '8px',
+  },
+  lightboxImg: {
+    maxWidth: '100%',
+    height: 'auto',
+  },
+  closeButton: {
+    position: 'absolute',
+    top: '10px',
+    right: '10px',
+  },
+};
 
 export default App;
