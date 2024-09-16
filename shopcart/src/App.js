@@ -1,25 +1,23 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingCart, faPlus, faMinus, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './App.css';
-
-// Importing images with the correct file paths
 import cologne from './products/cologne.jpg';
 import iwatch from './products/iwatch.jpg';
 import mug from './products/mug.jpg';
 import wallet from './products/wallet.jpg';
 
 function App() {
-  // Initialize state to keep track of product quantities
   const [quantities, setQuantities] = useState({
     cologne: 0,
     iwatch: 0,
     mug: 0,
     wallet: 0,
   });
+  const [lightboxProduct, setLightboxProduct] = useState(null); // Lightbox state
+  const [viewCart, setViewCart] = useState(false); // Cart view state
 
-  // Function to update the quantity of a product
   const handleQuantityChange = (product, value) => {
     if (value >= 0) {
       setQuantities((prev) => ({
@@ -29,14 +27,38 @@ function App() {
     }
   };
 
-  // Calculate total items in cart
+  const handleIncrement = (product) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [product]: prev[product] + 1,
+    }));
+  };
+
+  const handleDecrement = (product) => {
+    if (quantities[product] > 0) {
+      setQuantities((prev) => ({
+        ...prev,
+        [product]: prev[product] - 1,
+      }));
+    }
+  };
+
   const totalItems = Object.values(quantities).reduce((acc, curr) => acc + curr, 0);
+
+  const products = [
+    { name: 'Unisex Cologne', img: cologne, key: 'cologne' },
+    { name: 'Apple iWatch', img: iwatch, key: 'iwatch' },
+    { name: 'Unique Mug', img: mug, key: 'mug' },
+    { name: 'Mens Wallet', img: wallet, key: 'wallet' },
+  ];
+
+  const cartItems = products.filter(product => quantities[product.key] > 0);
 
   return (
     <div className="App">
-      <header className="App-header bg-info text-black p-3">
-        <h1 className="App-title">Shop to React</h1>
-        <div className="align-items-center">
+      <header className="App-header bg-info text-black p-3 d-flex justify-content-between align-items-center">
+        <h1 className="App-title" onClick={() => setViewCart(false)}>Shop 2 React</h1>
+        <div className="align-items-center" onClick={() => setViewCart(true)}>
           <FontAwesomeIcon icon={faShoppingCart} className="App-cart-icon mr-2" />
           <span>{totalItems} {totalItems === 1 ? 'item' : 'items'}</span>
         </div>
@@ -44,81 +66,69 @@ function App() {
 
       <main className="App-main py-4">
         <div className="container">
-          <div className="row">
-            {/* Product 1 */}
-            <div className="col-sm-12 d-flex border p-3 align-items-center text-center">
-              <div className="col-md-5 ">
-                <p className="font-weight-bold">Unisex Cologne</p>
-                <img src={cologne} alt="Cologne" className="img-fluid rounded" />
-              </div>
-              <div className="ml-3 d-flex align-items-center">
-                <input 
-                  type="number" 
-                  min="0" 
-                  value={quantities.cologne} 
-                  onChange={(e) => handleQuantityChange('cologne', parseInt(e.target.value))}
-                  className="form-control w-25 mr-2" 
-                />
-                <p className="m-0">quantity</p>
-              </div>
+          {viewCart ? (
+            <div className="cart-view">
+              <h2>Your Cart Items</h2>
+              {cartItems.length > 0 ? (
+                cartItems.map((product) => (
+                  <div key={product.key} className="d-flex justify-content-between align-items-center border p-3">
+                    <img
+                      src={product.img}
+                      alt={product.name}
+                      className="img-fluid rounded"
+                      style={{ width: '100px', height: '100px' }}
+                    />
+                    <span>{product.name}</span>
+                    <span>Quantity: {quantities[product.key]}</span>
+                  </div>
+                ))
+              ) : (
+                <p>Your cart is empty.</p>
+              )}
             </div>
-
-            {/* Product 2 */}
-            <div className="col-sm-12 d-flex border p-3 align-items-center text-center">
-              <div className="col-md-5">
-                <p className="font-weight-bold">Apple iWatch</p>
-                <img src={iwatch} alt="iWatch" className="img-fluid rounded" />
-              </div>
-              <div className="ml-3 d-flex align-items-center">
-                <input 
-                  type="number" 
-                  min="0" 
-                  value={quantities.iwatch} 
-                  onChange={(e) => handleQuantityChange('iwatch', parseInt(e.target.value))}
-                  className="form-control w-25 mr-2" 
-                />
-                <p className="m-0">quantity</p>
-              </div>
+          ) : (
+            <div className="row">
+              {products.map((product) => (
+                <div key={product.key} className="col-sm-12 d-flex border p-3 align-items-center text-center">
+                  <div className="col-md-5">
+                    <p className="font-weight-bold">{product.name}</p>
+                    <img
+                      src={product.img}
+                      alt={product.name}
+                      className="img-fluid rounded"
+                      onClick={() => setLightboxProduct(product)}
+                      style={{ cursor: 'pointer' }}
+                    />
+                  </div>
+                  <div className="ml-3 d-flex align-items-center">
+                    <button onClick={() => handleDecrement(product.key)} className="btn btn-outline-secondary mr-2">
+                      <FontAwesomeIcon icon={faMinus} />
+                    </button>
+                    <span>{quantities[product.key]}</span>
+                    <button onClick={() => handleIncrement(product.key)} className="btn btn-outline-secondary ml-2">
+                      <FontAwesomeIcon icon={faPlus} />
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
-
-            {/* Product 3 */}
-            <div className="col-sm-12 d-flex border p-3 align-items-center text-center">
-              <div className="col-md-5">
-                <p className="font-weight-bold">Unique Mug</p>
-                <img src={mug} alt="Cat Mug" className="img-fluid rounded" />
-              </div>
-              <div className="ml-3 d-flex align-items-center">
-                <input 
-                  type="number" 
-                  min="0" 
-                  value={quantities.mug} 
-                  onChange={(e) => handleQuantityChange('mug', parseInt(e.target.value))}
-                  className="form-control w-25 mr-2" 
-                />
-                <p className="m-0">quantity</p>
-              </div>
-            </div>
-
-            {/* Product 4 */}
-            <div className="col-sm-12 d-flex border p-3 align-items-center text-center">
-              <div className="col-md-5">
-                <p className="font-weight-bold">Mens Wallet</p>
-                <img src={wallet} alt="Wallet" className="img-fluid rounded" />
-              </div>
-              <div className="ml-3 d-flex align-items-center">
-                <input 
-                  type="number" 
-                  min="0" 
-                  value={quantities.wallet} 
-                  onChange={(e) => handleQuantityChange('wallet', parseInt(e.target.value))}
-                  className="form-control w-25 mr-2" 
-                />
-                <p className="m-0">quantity</p>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       </main>
+
+      {/* Lightbox for product info */}
+      {lightboxProduct && (
+        <div className="lightbox" onClick={() => setLightboxProduct(null)}>
+          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+            <button className="lightbox-close" onClick={() => setLightboxProduct(null)}>
+              <FontAwesomeIcon icon={faTimes} />
+            </button>
+            <h2>{lightboxProduct.name}</h2>
+            <img src={lightboxProduct.img} alt={lightboxProduct.name} className="img-fluid" />
+            <p>Some details about {lightboxProduct.name}...</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

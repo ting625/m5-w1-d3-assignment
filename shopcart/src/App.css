@@ -45,8 +45,10 @@ span {
 
 
 h1 {
-margin-right:50%;
+  margin-right:50%;
+  color:#ffffff;
 }
+
 
 
 @keyframes App-logo-spin {
