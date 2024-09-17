@@ -82,22 +82,24 @@ function App() {
           ) : (
             <div className="row">
               {products.map((product) => (
-                <div key={product.key} className="col-sm-12 d-flex border p-3 align-items-center text-center">
-                  <div className="col-md-5">
-                    <p className="font-weight-bold">{product.name}</p>
+                <div key={product.key} className="col-12 d-flex align-items-center border p-3">
+                  <div className="product-image col-md-2">
                     <img
                       src={product.img}
                       alt={product.name}
                       className="img-fluid rounded"
-                      onClick={() => setLightboxProduct(product)}
-                      style={{ cursor: 'pointer' }}
+                      style={{ width: '150px', height: '150px', cursor: 'pointer' }}
+                      onClick={() => setLightboxProduct(product)} // Trigger lightbox
                     />
                   </div>
-                  <div className="ml-3 d-flex align-items-center">
+                  <div className="product-details col-md-4">
+                    <p className="font-weight-bold">{product.name}</p>
+                  </div>
+                  <div className="product-quantity d-flex align-items-center col-md-6 justify-content-end">
                     <button onClick={() => handleDecrement(product.key)} className="btn btn-outline-secondary mr-2">
                       <FontAwesomeIcon icon={faMinus} />
                     </button>
-                    <span className="mx-2">{quantities[product.key]}</span> {/* Quantity in between */}
+                    <span className="mx-2">Quantity: {quantities[product.key]}</span>
                     <button onClick={() => handleIncrement(product.key)} className="btn btn-outline-secondary ml-2">
                       <FontAwesomeIcon icon={faPlus} />
                     </button>
@@ -144,6 +146,7 @@ const styles = {
     backgroundColor: '#ffffff',
     padding: '20px',
     borderRadius: '8px',
+    position: 'relative',
   },
   lightboxImg: {
     maxWidth: '100%',
@@ -153,7 +156,12 @@ const styles = {
     position: 'absolute',
     top: '10px',
     right: '10px',
+    background: 'transparent',
+    border: 'none',
+    fontSize: '1.5rem',
+    cursor: 'pointer',
   },
 };
 
 export default App;
+
