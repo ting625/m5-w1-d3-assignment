@@ -104,20 +104,22 @@ function App() {
                     <p className="font-weight-bold">{product.name}</p>
                   </div>
                   <div className="product-quantity d-flex align-items-center col-md-6 justify-content-end">
-                    <button onClick={() => handleDecrement(product.key)} className="btn btn-outline-secondary mr-2">
-                      <FontAwesomeIcon icon={faMinus} />
-                    </button>
-                    <input
-                      type="number"
-                      value={quantities[product.key]}
-                      onChange={(e) => handleInputChange(product.key, e.target.value)}
-                      className="form-control mx-2"
-                      style={{ width: '60px', textAlign: 'center' }}
-                      min="0"
-                    />
-                    <button onClick={() => handleIncrement(product.key)} className="btn btn-outline-secondary ml-2">
-                      <FontAwesomeIcon icon={faPlus} />
-                    </button>
+                    <div className="quantity-control d-flex align-items-center">
+                      <button onClick={() => handleDecrement(product.key)} className="btn btn-secondary">
+                        <FontAwesomeIcon icon={faMinus} />
+                      </button>
+                      <input
+                        type="number"
+                        value={quantities[product.key]}
+                        onChange={(e) => handleInputChange(product.key, e.target.value)}
+                        className="form-control mx-2 text-center"
+                        style={{ width: '60px' }}
+                        min="0"
+                      />
+                      <button onClick={() => handleIncrement(product.key)} className="btn btn-secondary">
+                        <FontAwesomeIcon icon={faPlus} />
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -179,4 +181,3 @@ const styles = {
 };
 
 export default App;
-
