@@ -34,6 +34,14 @@ function App() {
     }
   };
 
+  const handleInputChange = (product, value) => {
+    const newValue = Math.max(0, parseInt(value) || 0); // Ensure quantity is not negative
+    setQuantities((prev) => ({
+      ...prev,
+      [product]: newValue,
+    }));
+  };
+
   const totalItems = Object.values(quantities).reduce((acc, curr) => acc + curr, 0);
 
   const products = [
@@ -99,7 +107,14 @@ function App() {
                     <button onClick={() => handleDecrement(product.key)} className="btn btn-outline-secondary mr-2">
                       <FontAwesomeIcon icon={faMinus} />
                     </button>
-                    <span className="mx-2">Quantity: {quantities[product.key]}</span>
+                    <input
+                      type="number"
+                      value={quantities[product.key]}
+                      onChange={(e) => handleInputChange(product.key, e.target.value)}
+                      className="form-control mx-2"
+                      style={{ width: '60px', textAlign: 'center' }}
+                      min="0"
+                    />
                     <button onClick={() => handleIncrement(product.key)} className="btn btn-outline-secondary ml-2">
                       <FontAwesomeIcon icon={faPlus} />
                     </button>
