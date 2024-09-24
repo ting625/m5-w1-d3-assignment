@@ -32,6 +32,10 @@ img {
   width:200px;
 }
 
+#fb_pic {
+  width:70px;
+}
+
 p {
   margin-top: 30px;
   margin-bottom: 1rem;
@@ -46,7 +50,7 @@ span {
 
 h1 {
   margin-right:50%;
-  color:#ffffff;
+  color:#000000;
 }
 
 
