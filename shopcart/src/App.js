@@ -71,20 +71,33 @@ function App() {
             <div className="cart-view">
               <h2>Your Cart Items</h2>
               {cartItems.length > 0 ? (
-                cartItems.map((product) => (
-                  <div key={product.key} className="d-flex justify-content-between align-items-center border p-3">
-                    <img
-                      src={product.img}
-                      alt={product.name}
-                      className="img-fluid rounded"
-                      style={{ width: '100px', height: '100px' }}
-                    />
-                    <span>{product.name}</span>
-                    <span>Quantity: {quantities[product.key]}</span>
-                  </div>
-                ))
+                <>
+                  {cartItems.map((product) => (
+                    <div key={product.key} className="d-flex justify-content-between align-items-center border p-3">
+                      <img
+                        src={product.img}
+                        alt={product.name}
+                        className="img-fluid rounded"
+                        style={{ width: '100px', height: '100px' }}
+                      />
+                      <span>{product.name}</span>
+                      <span>Quantity: {quantities[product.key]}</span>
+                    </div>
+                  ))}
+                  {/* Add Check Out button when cart has items */}
+                  <button className="btn btn-primary mt-3" onClick={() => alert("Proceeding to checkout...")}>
+                    Check Out
+                  </button>
+                </>
               ) : (
-                <p>Your cart is empty.</p>
+                <>
+                  {/* Message for empty cart */}
+                  <p>There are {totalItems} items in your cart.</p>
+                  {/* Add Continue Shopping button when cart is empty */}
+                  <button className="btn btn-success mt-3" onClick={() => setViewCart(false)}>
+                    Continue Shop
+                  </button>
+                </>
               )}
             </div>
           ) : (
@@ -181,3 +194,4 @@ const styles = {
 };
 
 export default App;
+
