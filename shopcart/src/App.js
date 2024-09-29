@@ -23,6 +23,7 @@ function App() {
   const [login, setLogin] = useState(false);
   const [data, setData] = useState({});
   const [picture, setPicture] = useState('');
+  const [sortOption, setSortOption] = useState('normal'); // State to control sorting
 
   const handleIncrement = (product) => {
     setQuantities((prev) => ({
@@ -51,11 +52,21 @@ function App() {
   const totalItems = Object.values(quantities).reduce((acc, curr) => acc + curr, 0);
 
   const products = [
-    { name: 'Unisex Cologne', img: cologne, key: 'cologne' },
-    { name: 'Apple iWatch', img: iwatch, key: 'iwatch' },
-    { name: 'Unique Mug', img: mug, key: 'mug' },
-    { name: 'Mens Wallet', img: wallet, key: 'wallet' },
+    { name: 'Unisex Cologne', img: cologne, key: 'cologne', id:1, price: 35, ratings: '4', value:0},
+    { name: 'Apple iWatch', img: iwatch, key: 'iwatch', id:2, price: 199, ratings: '3.5', value:0},
+    { name: 'Unique Mug', img: mug, key: 'mug', id:3, price: 15, ratings: '5', value:0},
+    { name: 'Mens Wallet', img: wallet, key: 'wallet', id:4, price: 48, ratings: '4.5', value:0},
   ];
+
+  const sortedProducts = [...products].sort((a, b) => {
+    if (sortOption === 'lowest') {
+      return a.price - b.price;
+    } else if (sortOption === 'highest') {
+      return b.price - a.price;
+    } else {
+      return a.id - b.id; // Default sorting by id
+    }
+  });
 
   const cartItems = products.filter(product => quantities[product.key] > 0);
 
@@ -73,6 +84,10 @@ function App() {
 
   const handleCheckout = () => {
     setShowLogin(true); // Show login form and Facebook login on checkout
+  };
+
+  const handleSortChange = (e) => {
+    setSortOption(e.target.value); // Update the sorting option
   };
 
   return (
@@ -148,6 +163,14 @@ function App() {
                   </div>
                 ) : (
                   <div className="row">
+                    <div className="col-12 mb-3 d-flex justify-content-center">
+                      <label className="mr-2">Sort Price By: </label>
+                      <select className="form-control w-auto" onChange={handleSortChange} value={sortOption}>
+                        <option value="normal">Normal</option>
+                        <option value="lowest">Lowest</option>
+                        <option value="highest">Highest</option>
+                      </select>
+                    </div>
                     {products.map((product) => (
                       <div key={product.key} className="col-12 d-flex align-items-center border p-3">
                         <div className="product-image col-md-2">
@@ -160,7 +183,9 @@ function App() {
                           />
                         </div>
                         <div className="product-details col-md-4">
-                          <p className="font-weight-bold">{product.name}</p>
+                          <p className="font-weight-bold">
+                            {product.name} <span className="text-danger">${product.price}</span>
+                          </p>
                         </div>
                         <div className="product-quantity d-flex align-items-center col-md-6 justify-content-end">
                           <div className="quantity-control d-flex align-items-center">
