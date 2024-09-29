@@ -171,7 +171,7 @@ function App() {
                         <option value="highest">Highest</option>
                       </select>
                     </div>
-                    {products.map((product) => (
+                    {sortedProducts.map((product) => (
                       <div key={product.key} className="col-12 d-flex align-items-center border p-3">
                         <div className="product-image col-md-2">
                           <img
